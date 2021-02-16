@@ -1,24 +1,25 @@
 const webpack = require('webpack')
 const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  entry: {
-    main: './src/ReactCompassNavigator.jsx',
-    style: './src/master.scss'
-  },
+  entry: './src/ReactCompassNavigator.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'index.js',
     library: {
       type: "commonjs",
       name: "ReactCompassNavigator",
     }
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'master.css'
+    }),
     new OptimizeCssAssetsPlugin({
       cssProcessorPluginOptions: {
         preset: ['default', { discardComments: { removeAll: true } }],
