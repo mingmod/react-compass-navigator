@@ -5,7 +5,6 @@ const Scroller = ({ children, onChange }) => {
   const paramScroll = 'scrollLeft'
   const paramSize = 'clientWidth'
   const scrollRef = useRef()
-  const scrollRef1 = useRef()
   const speedStepMod = 5
   const speedMod = 20
   let pos = { top: 0, left: 0, x: 0, y: 0 }
@@ -108,7 +107,7 @@ const Scroller = ({ children, onChange }) => {
         className='se-compass-navigator__scroll'
         onMouseDown={mouseDownHandler}
       >
-        <div ref={scrollRef1} className='se-compass-navigator__scroll-inner'>
+        <div className='se-compass-navigator__scroll-inner'>
           <div className='se-compass-navigator__scroll-center'>
             {children}
           </div>

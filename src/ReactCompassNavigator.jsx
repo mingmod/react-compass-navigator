@@ -3,27 +3,23 @@ import PropTypes from 'prop-types'
 import DirectionItem from './DirectionItem.jsx'
 import Scroller from './Scroller.jsx'
 import loopIndex from './loopIndex'
+import { defaultDirectionFactory } from './factories.jsx'
 
 import './master.scss'
-const ReactCompassNavigator = ({ directions, directionFactory }) => {
-  const visibleCount = 3
+const ReactCompassNavigator = ({ directions, directionFactory, visibleCount }) => {
 
   const genItems = size => Array.from(Array(size+1).keys())
 
   const [position, setPosition] = useState(0)
   const [items, setItems] = useState(genItems(visibleCount))
-
-  const defaultDirectionFactory = (currentItem) => (
-    <div className='se-compass-navigator__default-item'>
-      <p>{directions[loopIndex(directions.length, currentItem)]}</p>
-    </div>
-  )
+  const [activeDirection, setActiveDirection] = useState(genItems(visibleCount))
 
   const mapper = (currentItem) => {
-    if (directionFactory) {
-      return directionFactory(directions, currentItem)
-    }
-    return defaultDirectionFactory(currentItem)
+    return directionFactory(directions, currentItem)
+  }
+
+  const handleChange = (posChange) => {
+    setPosition(posChange + position)
   }
 
   return (
@@ -39,14 +35,24 @@ const ReactCompassNavigator = ({ directions, directionFactory }) => {
           />
         ))}
       </div>
-      <Scroller onChange={(posChange) => { setPosition(posChange + position) }} />
+      <Scroller onChange={handleChange} />
     </div>
   )
 }
 
 ReactCompassNavigator.propTypes = {
   directions: PropTypes.arrayOf(PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])).isRequired,
-  directionFactory: PropTypes.func
+  directionFactory: PropTypes.func,
+  onChange: PropTypes.func,
+  changeThrottle: PropTypes.number,
+  visibleCount: PropTypes.number,
+}
+
+ReactCompassNavigator.defaultProps = {
+  directionFactory: defaultDirectionFactory,
+  onChange: (key, value) => {},
+  changeThrottle: 256,
+  visibleCount: 3
 }
 
 export default ReactCompassNavigator

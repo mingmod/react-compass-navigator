@@ -1,19 +1,20 @@
 import { getDiff } from './loopIndex'
+import { POSITION_CENTER } from './consts'
 
 const widthBase = 100
-const center = 50
 
-const loopDirections = (step, position, gid) => {
+const loopDirections = (step, position) => {
+  const positionCentered = POSITION_CENTER + position
   const width = widthBase + step
   const halfStep = step / 2
   const allowMax = width - halfStep
-  let nextPosition = position
+  let nextPosition = positionCentered
 
   if (position > width) {
-    nextPosition = position % width
+    nextPosition = positionCentered % width
   }
   else if (position <= 0 - halfStep) {
-    nextPosition = position + getDiff(position, width)
+    nextPosition = positionCentered + getDiff(positionCentered, width)
   }
 
   if (nextPosition > allowMax) {
@@ -21,12 +22,6 @@ const loopDirections = (step, position, gid) => {
   }
 
   return nextPosition
-  // if (index < 0) return index + getDiff(index, target)
-  // else if (index >= target) {
-  //   console.log(getDiff(index, target), 'test');
-  //   return getDiff(index, target)
-  // }
-	// return index
 }
 
 export default loopDirections

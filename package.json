@@ -1,6 +1,6 @@
 {
   "name": "react-compass-navigator",
-  "version": "1.0.0",
+  "version": "1.0.01",
   "description": "Simple compass navigator",
   "main": "index.js",
   "scripts": {
